@@ -132,6 +132,14 @@
         "documentation": {}
     },
     {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "wraps",
         "importPath": "functools",
         "description": "functools",
@@ -166,6 +174,22 @@
     },
     {
         "label": "*",
+        "importPath": "src.core.jira.jira_integration",
+        "description": "src.core.jira.jira_integration",
+        "isExtraImport": true,
+        "detail": "src.core.jira.jira_integration",
+        "documentation": {}
+    },
+    {
+        "label": "get_issue_type_custom_fields_by_project_impl",
+        "importPath": "src.core.jira.jira_integration",
+        "description": "src.core.jira.jira_integration",
+        "isExtraImport": true,
+        "detail": "src.core.jira.jira_integration",
+        "documentation": {}
+    },
+    {
+        "label": "get",
         "importPath": "src.core.jira.jira_integration",
         "description": "src.core.jira.jira_integration",
         "isExtraImport": true,
@@ -284,16 +308,16 @@
         "kind": 2,
         "importPath": "src.core.jira.jira_integration",
         "description": "src.core.jira.jira_integration",
-        "peekOfCode": "def create_jira_issue_impl(\n    project: str,   \n    parent: str,\n    assignee_email: str,\n    title: str,\n    issue_type: str,\n    description: str,\n    custom_fields: Dict[str, Any]\n) -> str:\n    \"\"\"Create a Jira issue in a specific project and parent, with custom fields and rich text description.\"\"\"",
+        "peekOfCode": "def create_jira_issue_impl(\n    project: str,   \n    parent: str,\n    assignee_email: str,\n    title: str,\n    issue_type: str,\n    description: str,\n    custom_fields: Dict[str, Any]\n) -> str:\n    \"\"\"Create a Jira issue in a specific project and parent, with custom fields and rich text description.",
         "detail": "src.core.jira.jira_integration",
         "documentation": {}
     },
     {
-        "label": "get_jira_transitions_impl",
+        "label": "get_transitions_with_fields_impl",
         "kind": 2,
         "importPath": "src.core.jira.jira_integration",
         "description": "src.core.jira.jira_integration",
-        "peekOfCode": "def get_jira_transitions_impl(issue_key: str) -> Dict[str, str]:\n    \"\"\"Get all possible transitions for a Jira issue.\n    Args:\n        issue_key: The key of the issue to get transitions for (e.g., 'PROJ-123')\n    Returns:\n        A dictionary mapping transition names to their IDs\n    \"\"\"\n    transitions = jira_client.transitions(issue_key)\n    return {t['name']: t['id'] for t in transitions}\n@with_jira_client",
+        "peekOfCode": "def get_transitions_with_fields_impl(issue_key: str) -> Dict[str, Dict[str, Any]]:\n    \"\"\"Get all possible transitions and their required fields for a Jira issue.\n    Args:\n        issue_key: The key of the issue to get transitions for (e.g., 'PROJ-123')\n    Returns:\n        A dictionary containing transitions with their details:\n        {\n            \"transition_name\": {\n                \"id\": \"transition ID\",\n                \"required_fields\": {",
         "detail": "src.core.jira.jira_integration",
         "documentation": {}
     },
@@ -311,7 +335,7 @@
         "kind": 2,
         "importPath": "src.core.jira.jira_integration",
         "description": "src.core.jira.jira_integration",
-        "peekOfCode": "def get_issue_details_impl(issue_key: str) -> Dict[str, str]:\n    \"\"\"Get the title (summary) and description of a Jira issue.\n    Args:\n        issue_key: The key of the issue to get details for (e.g., 'PROJ-123')\n    Returns:\n        A dictionary containing the issue's summary and description\n    \"\"\"\n    issue = jira_client.issue(issue_key)\n    # Handle description - return \"Sem Descrição\" if None or empty\n    description = getattr(issue.fields, 'description', None)",
+        "peekOfCode": "def get_issue_details_impl(issue_key: str) -> Dict[str, Any]:\n    \"\"\"Get detailed information about a Jira issue including subtasks and custom fields.\n    Args:\n        issue_key: The key of the issue to get details for (e.g., 'PROJ-123')\n    Returns:\n        A dictionary containing the issue's details including:\n        - Basic information (title, description, type, status)\n        - Parent information if it exists\n        - List of subtasks with their details if they exist\n        - All filled custom fields",
         "detail": "src.core.jira.jira_integration",
         "documentation": {}
     },
@@ -325,11 +349,20 @@
         "documentation": {}
     },
     {
+        "label": "get_issue_type_custom_fields_by_project_impl",
+        "kind": 2,
+        "importPath": "src.core.jira.jira_integration",
+        "description": "src.core.jira.jira_integration",
+        "peekOfCode": "def get_issue_type_custom_fields_by_project_impl(project_key: str, issue_type_name: str) -> str:\n    \"\"\"Get a structured text description of all fields available for a specific issue type.\n    Args:\n        project_key: The project key (e.g., 'PROJ')\n        issue_type_name: The name of the issue type (e.g., 'Task', 'Bug')\n    Returns:\n        A formatted string containing all field information organized by categories\n    \"\"\"\n    # Get project and issue type info\n    project = jira_client.project(project_key)",
+        "detail": "src.core.jira.jira_integration",
+        "documentation": {}
+    },
+    {
         "label": "create_jira_issue",
         "kind": 2,
         "importPath": "src.mcp.server",
         "description": "src.mcp.server",
-        "peekOfCode": "def create_jira_issue(\n    project: str,\n    title: str,\n    issue_type: str,\n    description: str,\n    parent: str = None,\n    assignee_email: str = None,\n    custom_fields: Dict[str, Any] = None\n) -> str:\n    \"\"\"Create a Jira issue in a specific project and parent, with custom fields and rich text \\",
+        "peekOfCode": "def create_jira_issue(\n    project: str,\n    title: str,\n    issue_type: str,\n    description: str,\n    parent: str = None,\n    assignee_email: str = None,\n    custom_fields: Dict[str, Any] = None\n) -> str:\n    \"\"\"Create a Jira issue with support for custom fields and rich text description.",
         "detail": "src.mcp.server",
         "documentation": {}
     },
@@ -338,7 +371,7 @@
         "kind": 2,
         "importPath": "src.mcp.server",
         "description": "src.mcp.server",
-        "peekOfCode": "def get_transitions(issue_key: str) -> Dict[str, str]:\n    \"\"\"Get all possible transitions for a Jira issue.\n    Args:\n        issue_key: The Jira issue key\n    \"\"\"\n    return get_jira_transitions_impl(issue_key)\n@mcp.tool()\ndef transition_issue(issue_key: str, transition_name: str) -> str:\n    \"\"\"Transition a Jira issue to a new status.\n    Args:",
+        "peekOfCode": "def get_transitions(issue_key: str) -> Dict[str, Dict[str, Any]]:\n    \"\"\"Get all possible transitions and their required fields for a Jira issue.\n    This tool provides detailed information about each available transition,\n    including any mandatory fields that must be filled when making the transition.\n    Args:\n        issue_key: The Jira issue key (e.g., 'PROJ-123')\n    Returns:\n        A dictionary containing transitions with their details:\n        {\n            \"transition_name\": {",
         "detail": "src.mcp.server",
         "documentation": {}
     },
@@ -347,7 +380,7 @@
         "kind": 2,
         "importPath": "src.mcp.server",
         "description": "src.mcp.server",
-        "peekOfCode": "def transition_issue(issue_key: str, transition_name: str) -> str:\n    \"\"\"Transition a Jira issue to a new status.\n    Args:\n        issue_key: The Jira issue key\n        transition_name: Name of the transition\n    \"\"\"\n    return transition_jira_issue_impl(issue_key, transition_name)\n@mcp.tool()\ndef get_issue_info(issue_key: str) -> Dict[str, str]:\n    \"\"\"Get the title and description of a Jira issue.",
+        "peekOfCode": "def transition_issue(issue_key: str, transition_name: str) -> str:\n    \"\"\"Transition a Jira issue to a new status.\n    Args:\n        issue_key: The Jira issue key\n        transition_name: Name of the transition\n    \"\"\"\n    return transition_jira_issue_impl(issue_key, transition_name)\n@mcp.tool()\ndef get_issue_info(issue_key: str) -> Dict[str, Any]:\n    \"\"\"Get comprehensive information about a Jira issue including its subtasks.",
         "detail": "src.mcp.server",
         "documentation": {}
     },
@@ -356,7 +389,7 @@
         "kind": 2,
         "importPath": "src.mcp.server",
         "description": "src.mcp.server",
-        "peekOfCode": "def get_issue_info(issue_key: str) -> Dict[str, str]:\n    \"\"\"Get the title and description of a Jira issue.\n    Args:\n        issue_key: The Jira issue key\n    \"\"\"\n    return get_issue_details_impl(issue_key)\n@mcp.tool()\ndef get_issue_types() -> Dict[str, Dict[str, str]]:\n    \"\"\"Get all available issue types from Jira.\n    Returns:",
+        "peekOfCode": "def get_issue_info(issue_key: str) -> Dict[str, Any]:\n    \"\"\"Get comprehensive information about a Jira issue including its subtasks.\n    This tool provides detailed information about an issue, including its basic details,\n    parent relationship, and all subtasks if they exist.\n    Args:\n        issue_key: The Jira issue key (e.g., 'PROJ-123')\n    Returns:\n        A dictionary containing comprehensive issue details including:\n        - key: The issue key\n        - title: Issue summary/title",
         "detail": "src.mcp.server",
         "documentation": {}
     },
@@ -366,6 +399,15 @@
         "importPath": "src.mcp.server",
         "description": "src.mcp.server",
         "peekOfCode": "def get_issue_types() -> Dict[str, Dict[str, str]]:\n    \"\"\"Get all available issue types from Jira.\n    Returns:\n        A dictionary containing all available issue types with their details including:\n        - name: The name of the issue type\n        - id: The unique identifier\n        - description: A description of the issue type\n        - subtask: Whether this is a subtask type\n        - icon_url: URL to the issue type's icon\n    \"\"\"",
+        "detail": "src.mcp.server",
+        "documentation": {}
+    },
+    {
+        "label": "get_issue_type_fields",
+        "kind": 2,
+        "importPath": "src.mcp.server",
+        "description": "src.mcp.server",
+        "peekOfCode": "def get_issue_type_fields(project_key: str, issue_type_name: str) -> str:\n    \"\"\"Get a detailed description of all fields available for a specific kind of issue type in a project.\n    This tool provides a structured list of all fields that can be used\n    when creating or editing issues of a specific type. Fields are organized into categories\n    (Required, Custom, and Standard) and include information about field types and allowed values.\n    Args:\n        project_key: The project key (e.g., 'PROJ')\n        issue_type_name: The name of the issue type (e.g., 'Task', 'Bug')\n    Returns:\n        A formatted string containing all field information organized by categories.",
         "detail": "src.mcp.server",
         "documentation": {}
     },
@@ -392,7 +434,7 @@
         "kind": 2,
         "importPath": "src.tools.langchain.jira_tools",
         "description": "src.tools.langchain.jira_tools",
-        "peekOfCode": "def get_jira_transitions(issue_key: str) -> Dict[str, str]:\n    \"\"\"Get all possible transitions for a Jira issue.\"\"\"\n    return get_jira_transitions_impl(issue_key)\n@tool(\"transition_jira_issue\")\ndef transition_jira_issue(issue_key: str, transition_name: str) -> str:\n    \"\"\"Transition a Jira issue to a new status.\"\"\"\n    return transition_jira_issue_impl(issue_key, transition_name)\n@tool(\"get_jira_issue_details\")\ndef get_issue_details(issue_key: str) -> Dict[str, str]:\n    \"\"\"Get the title and description of a Jira issue for LLM context.",
+        "peekOfCode": "def get_jira_transitions(issue_key: str) -> Dict[str, str]:\n    \"\"\"Get all possible transitions for a Jira issue.\"\"\"\n    return get_transitions_with_fields_impl(issue_key)\n@tool(\"transition_jira_issue\")\ndef transition_jira_issue(issue_key: str, transition_name: str) -> str:\n    \"\"\"Transition a Jira issue to a new status.\"\"\"\n    return transition_jira_issue_impl(issue_key, transition_name)\n@tool(\"get_jira_issue_details\")\ndef get_issue_details(issue_key: str) -> Dict[str, str]:\n    \"\"\"Get the title and description of a Jira issue for LLM context.",
         "detail": "src.tools.langchain.jira_tools",
         "documentation": {}
     },

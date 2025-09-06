@@ -29,7 +29,7 @@ def create_jira_issue(
 @tool("get_jira_transitions")
 def get_jira_transitions(issue_key: str) -> Dict[str, str]:
     """Get all possible transitions for a Jira issue."""
-    return get_jira_transitions_impl(issue_key)
+    return get_transitions_with_fields_impl(issue_key)
 
 
 

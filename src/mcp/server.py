@@ -264,6 +264,84 @@ def get_issue_type_fields(project_key: str, issue_type_name: str) -> str:
     """
     return get_issue_type_custom_fields_by_project_impl(project_key, issue_type_name)
 
+@mcp.tool()
+def get_tempo_accounts() -> str:
+    """Get all available Tempo accounts.
+    
+    This tool retrieves a list of all active Tempo accounts that can be used for time tracking.
+    Each account entry includes both the account key (used for logging time) and its display name.
+    
+    Returns:
+        A formatted string containing all active Tempo accounts, with each line showing:
+        - Account Key: The unique identifier used when logging time
+        - Account Name: The human-readable name of the account
+        
+    Example response:
+        - Account Key: PROJ-MAIN, Account Name: Main Project
+        - Account Key: PROJ-DEV, Account Name: Development
+        - Account Key: PROJ-SUPPORT, Account Name: Customer Support
+        
+    Raises:
+        ValueError: If Tempo API environment variables are not configured properly
+    """
+    return get_accounts_for_tempo()
+
+@mcp.tool()
+def register_tempo_worklog(
+    issue_key: str,
+    assignee_email: str,
+    start_time: str,
+    time_in_seconds: int,
+    account_key: str,
+    description: str = "Atividade da tarefa",
+    task_date: str = None
+) -> str:
+    """Register time spent on an issue in Tempo.
+    
+    This tool allows you to log work time against a Jira issue using Tempo for time tracking.
+    The work log will be associated with the specified Tempo account and user.
+    
+    Args:
+        issue_key: The Jira issue key (e.g., 'PROJ-123')
+        assignee_email: Email of the user who performed the work
+        start_time: Time when the work started in "HH:MM:SS" format (e.g., "09:00:00")
+        time_in_seconds: Duration of the work in seconds (e.g., 3600 for 1 hour)
+        account_key: The Tempo account key to log time against (use get_tempo_accounts to see available accounts)
+        description: Optional description of the work performed (defaults to "Atividade da tarefa")
+        task_date: Optional date for the worklog in "YYYY-MM-DD" format (defaults to current date)
+    
+    Returns:
+        A message indicating success or failure of the worklog creation
+        
+    Example Usage:
+        status = register_tempo_worklog(
+            issue_key="PROJ-123",
+            assignee_email="user@company.com",
+            start_time="09:00:00",
+            time_in_seconds=3600,  # 1 hour
+            account_key="PROJ-DEV",
+            description="Implementing new feature",
+            task_date="2025-09-07"  # Optional, defaults to today
+        )
+        
+    Raises:
+        ValueError: If user email is not found, issue doesn't exist, or Tempo configuration is missing
+    """
+    return register_worklog_tempo(
+        issue_key=issue_key,
+        assignee_email=assignee_email,
+        start_time=start_time,
+        time_in_seconds=time_in_seconds,
+        account_key=account_key,
+        description=description,
+        task_date=task_date
+    )
+
+@mcp.tool()
+def get_current_date() -> str:
+    """Get the current date in YYYY-MM-DD format."""
+    from datetime import datetime
+    return datetime.now().strftime("%Y-%m-%d")
 
 if __name__ == "__main__":
     # Initialize and run the server using STDIO transport

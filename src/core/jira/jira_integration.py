@@ -1,9 +1,11 @@
 from jira import JIRA
-from langchain.tools import tool
 from typing import Dict, Any, Optional
 from functools import wraps
 from dotenv import load_dotenv
+from tempoapiclient import client_v4
+from datetime import datetime
 import os
+
 
 load_dotenv()
 
@@ -445,12 +447,123 @@ def get_issue_type_custom_fields_by_project_impl(project_key: str, issue_type_na
     
     return "\n".join(output)
 
+# Global Tempo client instance
+tempo_client = None
+
+def init_tempo_client() -> None:
+    """Initialize the Tempo client."""
+    global tempo_client
+    tempo_api_key = os.getenv("TEMPO_API_KEY")
+    if not tempo_api_key:
+        raise ValueError("TEMPO_API_KEY environment variable is not set.")
+    tempo_client = client_v4.Tempo(auth_token=tempo_api_key)
+
+def with_tempo_client(func):
+    """Decorator to ensure Tempo client is initialized."""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if tempo_client is None:
+            init_tempo_client()
+        return func(*args, **kwargs)
+    return wrapper
+
+@with_jira_client
+@with_tempo_client
+def register_worklog_tempo(
+    issue_key: str, 
+    assignee_email: str, 
+    start_time: str, 
+    time_in_seconds: int, 
+    account_key: str, 
+    description: str = "Atividade da tarefa", 
+    task_date: str = datetime.now().strftime("%Y-%m-%d")
+) -> str:
+    """Register time tracking integration with Tempo.
+    
+    Args:
+        issue_key: The Jira issue key (e.g., 'PROJ-123')
+        assignee_email: Email of the user who performed the work
+        start_time: Time when the work started in "HH:MM:SS" format
+        time_in_seconds: Duration of the work in seconds
+        account_key: Tempo account key for time tracking
+        description: Optional work description
+        task_date: The date of the work in YYYY-MM-DD format
+        
+    Returns:
+        Success or error message
+        
+    Raises:
+        ValueError: If user not found or issue doesn't exist
+    """
+    # Search for the user by email
+    users = jira_client.search_users(query=assignee_email)
+    if not users:
+        raise ValueError(f"No user found with email: {assignee_email}")
+    
+    assignee_account_id = users[0].accountId
+    
+    # Validate issue exists and get its ID
+    issue = jira_client.issue(issue_key)
+    if not issue:
+        raise ValueError(f"No issue found with key: {issue_key}")
+    
+    try:
+        # Create worklog using Tempo API client
+        worklog = tempo_client.create_worklog(
+            issueId=issue.id,
+            timeSpentSeconds=time_in_seconds,
+            dateFrom=task_date,
+            startTime=start_time,
+            description=description,
+            accountId=assignee_account_id,
+            attributes=[{"key": "_Account_", "value": account_key}]
+        )
+        return "✅ Worklog created successfully!"
+    except Exception as e:
+        return f"❌ Failed to create worklog: {str(e)}"
+
+@with_tempo_client
+def get_accounts_for_tempo() -> str:
+    """Get all active accounts from Tempo.
+    
+    Returns:
+        Formatted string with account information
+        
+    Raises:
+        ValueError: If Tempo API key is not configured
+    """
+    try:
+        # Get accounts using Tempo API client
+        accounts = tempo_client.get_accounts()
+        
+        # Filter active accounts and format output
+        data = ""
+        for account in accounts:
+            if account.get("status") == "OPEN":
+                data += f"- Account Key: {account.get('key')}, Account Name: {account.get('name')}\n"
+        
+        return data if data else "No active accounts found"
+    except Exception as e:
+        return f"Error fetching accounts: {str(e)}"
 
 if __name__ == "__main__":
-    from src.core.jira.jira_integration import (
-        create_jira_issue_impl, transition_jira_issue_impl, get_issue_details_impl
+    # Example usage of Tempo integration
+    
+    # Get all Tempo accounts
+    accounts = get_accounts_for_tempo()
+    print("Available Tempo accounts:")
+    print(accounts)
+    
+    # Example: Register work log
+    worklog = register_worklog_tempo(
+        issue_key="ARQPERF-4676",
+        assignee_email=os.getenv("JIRA_ACCOUNT_EMAIL"),
+        start_time="09:00:00",
+        time_in_seconds=300,  # 5 minutes
+        account_key="PRJ-R2C3-MODERN-AWS",
+        description="Example work log entry"
     )
-    init_jira_client()
-    createmeta = jira_client.createmeta(projectKeys='ARQPERF', issuetypeNames="Tarefa", expand='projects.issuetypes.fields')
+    print("\nWorklog registration result:")
+    print(worklog)
 
-    print(createmeta)
+    # # print(createmeta)

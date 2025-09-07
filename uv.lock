@@ -229,6 +229,7 @@ dependencies = [
     { name = "langchain" },
     { name = "mcp", extra = ["cli"] },
     { name = "python-dotenv" },
+    { name = "tempo-api-python-client" },
 ]
 
 [package.metadata]
@@ -237,6 +238,7 @@ requires-dist = [
     { name = "langchain", specifier = ">=0.3.27" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.2.0" },
     { name = "python-dotenv", specifier = ">=1.1.1" },
+    { name = "tempo-api-python-client", specifier = ">=0.12.0" },
 ]
 
 [[package]]
@@ -827,6 +829,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/15/b9/cc3017f9a9c9b6e27c5106cc10cc7904653c3eec0729793aec10479dd669/starlette-0.47.3.tar.gz", hash = "sha256:6bc94f839cc176c4858894f1f8908f0ab79dfec1a6b8402f6da9be26ebea52e9", size = 2584144 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ce/fd/901cfa59aaa5b30a99e16876f11abe38b59a1a2c51ffb3d7142bb6089069/starlette-0.47.3-py3-none-any.whl", hash = "sha256:89c0778ca62a76b826101e7c709e70680a1699ca7da6b44d38eb0a7e61fe4b51", size = 72991 },
+]
+
+[[package]]
+name = "tempo-api-python-client"
+version = "0.12.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "requests" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6d/e2/f1201899641b30aec10c31c48d72490fc7dd10ef04373d731d6c2c6915e8/tempo_api_python_client-0.12.0.tar.gz", hash = "sha256:04ae196ba4c46609c326e676c06959d665e94b7083a6b0ed7c9899a447723c00", size = 14080 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bb/f0/7c585a68faafbf0fa5bf12809e2f71a001ea4cf0bc1f19af268e12efb9d1/tempo_api_python_client-0.12.0-py3-none-any.whl", hash = "sha256:989569a02bed93b0820f00722c3c8ab3846a1b6a568d24c14b61477320f115cc", size = 15597 },
 ]
 
 [[package]]

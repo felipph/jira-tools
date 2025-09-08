@@ -548,23 +548,5 @@ def get_accounts_for_tempo() -> str:
         return f"Error fetching accounts: {str(e)}"
 
 if __name__ == "__main__":
-    # Example usage of Tempo integration
-    print(get_issue_types_impl())
-    # # Get all Tempo accounts
-    # accounts = get_accounts_for_tempo()
-    # print("Available Tempo accounts:")
-    # print(accounts)
-    
-    # # Example: Register work log
-    worklog = register_worklog_tempo(
-        issue_key="ARQPERF-4677",
-        assignee_email="luiz.sosinho@nuclea.com.br",
-        start_time="14:00:00",
-        time_in_seconds=3600,  # 5 minutes
-        account_key="R2C3",
-        description="Example work log entry"
-    )
-    # print("\nWorklog registration result:")
-    # print(worklog)
-
-    # # print(createmeta)
+   
+   print("OK")

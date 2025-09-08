@@ -202,7 +202,7 @@ def get_issue_info(issue_key: str) -> Dict[str, Any]:
     return get_issue_details_impl(issue_key)
 
 @mcp.tool()
-def get_issue_types() -> Dict[str, Dict[str, str]]:
+def get_issue_types() -> Any:
     """Get all available issue types from Jira.
     
     Returns:
@@ -287,7 +287,7 @@ def get_tempo_accounts() -> str:
     return get_accounts_for_tempo()
 
 @mcp.tool()
-def register_tempo_worklog(
+def log_time_spent_in_issue(
     issue_key: str,
     assignee_email: str,
     start_time: str,
@@ -296,10 +296,9 @@ def register_tempo_worklog(
     description: str = "Atividade da tarefa",
     task_date: str = None
 ) -> str:
-    """Register time spent on an issue in Tempo.
+    """Log the time spent on an issue in a Jira issue.
     
-    This tool allows you to log work time against a Jira issue using Tempo for time tracking.
-    The work log will be associated with the specified Tempo account and user.
+    This tool allows you to log work time against a Jira issue for time tracking.
     
     Args:
         issue_key: The Jira issue key (e.g., 'PROJ-123')
@@ -314,7 +313,7 @@ def register_tempo_worklog(
         A message indicating success or failure of the worklog creation
         
     Example Usage:
-        status = register_tempo_worklog(
+        status = log_time_spent_in_issue(
             issue_key="PROJ-123",
             assignee_email="user@company.com",
             start_time="09:00:00",

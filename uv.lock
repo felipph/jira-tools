@@ -229,6 +229,7 @@ dependencies = [
     { name = "langchain" },
     { name = "mcp", extra = ["cli"] },
     { name = "python-dotenv" },
+    { name = "pyyaml" },
     { name = "tempo-api-python-client" },
 ]
 
@@ -238,6 +239,7 @@ requires-dist = [
     { name = "langchain", specifier = ">=0.3.27" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.2.0" },
     { name = "python-dotenv", specifier = ">=1.1.1" },
+    { name = "pyyaml", specifier = ">=6.0.2" },
     { name = "tempo-api-python-client", specifier = ">=0.12.0" },
 ]
 

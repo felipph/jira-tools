@@ -12,3 +12,6 @@ wheels/
 # Others
 .env
 .vscode
+campos_cards.yml
+.idea
+swap.md

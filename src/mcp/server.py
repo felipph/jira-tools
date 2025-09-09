@@ -342,6 +342,32 @@ def get_current_date() -> str:
     from datetime import datetime
     return datetime.now().strftime("%Y-%m-%d")
 
+@mcp.tool()
+def get_tarefa_creation_guide() -> str:
+    """Get detailed instructions for creating a Jira task.
+    
+    This tool provides a comprehensive guide on how to create a task in Jira,
+    including all required fields and their formats.
+    
+    Returns:
+        A formatted string containing detailed instructions on how to create
+        a task, including required fields, custom fields, and their formats.
+    """
+    return get_instructions_to_create_tarefa()
+
+@mcp.tool()
+def get_subtarefa_creation_guide() -> str:
+    """Get detailed instructions for creating a Jira subtask.
+    
+    This tool provides a comprehensive guide on how to create a subtask in Jira,
+    including all required fields and their formats.
+    
+    Returns:
+        A formatted string containing detailed instructions on how to create
+        a subtask, including required fields, custom fields, and their formats.
+    """
+    return get_instructions_to_create_subtarefa()
+
 if __name__ == "__main__":
     # Initialize and run the server using STDIO transport
     mcp.run(transport="stdio")

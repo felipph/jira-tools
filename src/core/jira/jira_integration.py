@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from tempoapiclient import client_v4
 from datetime import datetime
 import os
-
+import json
 
 load_dotenv()
 
@@ -68,8 +68,8 @@ def create_jira_issue_impl(
             {
                 'customfield_10001': {'value': 'High'},  # Single select
                 'customfield_10002': [{'value': 'Tag1'}, {'value': 'Tag2'}],  # Multi select
-                'customfield_10003': '2023-09-06',  # Date
-                'customfield_10004': 42,  # Number
+                'customfield_10003': {'value': '2023-09-06'),  # Date
+                'customfield_10004': {'id': 42},  # Number
                 'customfield_10005': {'accountId': 'user123'}  # User picker
             }
             
@@ -304,9 +304,6 @@ def get_issue_details_impl(issue_key: str) -> Dict[str, Any]:
         'custom_fields': custom_fields
     }
 
-
-
-
 @with_jira_client
 def get_issue_types_impl() -> Dict[str, Dict[str, str]]:
     """Get all available issue types from Jira.
@@ -333,7 +330,6 @@ def get_issue_types_impl() -> Dict[str, Dict[str, str]]:
         for issue_type in issue_types
     }
 
-def _extract_required_fields(transition_data: Dict[str, Any]) -> Dict[str, Dict[str, Any]]:
     """Helper function to extract required fields from transition data.
     
     Args:
@@ -366,86 +362,38 @@ def get_issue_type_custom_fields_by_project_impl(project_key: str, issue_type_na
         issue_type_name: The name of the issue type (e.g., 'Task', 'Bug')
         
     Returns:
-        A formatted string containing all field information organized by categories
+        A json string containing all field information organized by categories
     """
-    # Get project and issue type info
-    project = jira_client.project(project_key)
-    create_meta = jira_client.createmeta(
-        projectIds=[project.id],
-        expand='projects.issuetypes.fields'
-    )
     
-    # Find the specific issue type
-    issue_type_meta = None
-    for project_meta in create_meta['projects']:
-        for issuetype in project_meta['issuetypes']:
-            if issuetype['name'].lower() == issue_type_name.lower():
-                issue_type_meta = issuetype
-                break
-        if issue_type_meta:
-            break
-    
-    if not issue_type_meta:
-        raise ValueError(f"Issue type '{issue_type_name}' not found in project '{project_key}'")
-    
-    fields = issue_type_meta['fields']
-    
-    # Organize fields by category
-    categories = {
-        'Required Fields': [],
-        'Custom Fields': [],
-        'Standard Fields': []
-    }
-    
-    for field_id, field_info in fields.items():
-        # Create field description
-        field_desc = {
-            'name': field_info['name'],
-            'id': field_id,
-            'type': field_info.get('schema', {}).get('type', 'unknown'),
-            'required': field_info.get('required', False),
-            'custom': field_id.startswith('customfield_')
+    campos_ignorar = ['fixVersions','attachment']
+    data = jira_client.createmeta(projectKeys='ARQPERF', issuetypeNames="Tarefa", expand="projects.issuetypes.fields")
+    campos = []
+    for campo in data.get('projects')[0].get('issuetypes')[0].get('fields'):
+        if(campos_ignorar.__contains__(campo)):
+            continue
+        item = {            
+            "field": campo,
+            "name": data.get('projects')[0].get('issuetypes')[0].get('fields').get(campo).get('name'),
+            "schema": data.get('projects')[0].get('issuetypes')[0].get('fields').get(campo).get('schema').get("type")               
         }
-        
-        # Add allowed values if they exist
-        if 'allowedValues' in field_info:
-            values = []
-            for val in field_info['allowedValues']:
-                if 'value' in val:
-                    values.append(val['value'])
-                elif 'name' in val:
-                    values.append(val['name'])
-            if values:
-                field_desc['allowed_values'] = values
-        
-        # Categorize the field
-        if field_desc['required']:
-            categories['Required Fields'].append(field_desc)
-        elif field_desc['custom']:
-            categories['Custom Fields'].append(field_desc)
-        else:
-            categories['Standard Fields'].append(field_desc)
-    
-    # Format the output
-    output = []
-    output.append(f"Fields for {issue_type_name} in {project_key}")
-    output.append("=" * 50)
-    
-    for category, fields in categories.items():
-        if fields:
-            output.append(f"\n{category}:")
-            output.append("-" * len(category))
-            
-            for field in sorted(fields, key=lambda x: x['name']):
-                output.append(f"\n{field['name']} ({field['id']})")
-                output.append(f"Type: {field['type']}")
-                if field.get('allowed_values'):
-                    output.append("Allowed values: " + ", ".join(field['allowed_values']))
-                if field['required']:
-                    output.append("* Required field")
-                output.append("")
-    
-    return "\n".join(output)
+        valores_permitidos = []
+        for allowed_value in data.get('projects')[0].get('issuetypes')[0].get('fields').get(campo).get('allowedValues',[]):
+            valor_permitido = {}
+            if 'id' in allowed_value:
+                valor_permitido['id'] = allowed_value.get('id')
+            if 'value' in allowed_value:
+                valor_permitido['value'] = allowed_value.get('value')
+            if 'key' in allowed_value:
+                valor_permitido['key'] = allowed_value.get('key')
+            if 'name' in allowed_value:
+                valor_permitido['name'] = allowed_value.get('name')
+            valores_permitidos.append(valor_permitido)
+        item['allowedValues'] = valores_permitidos
+        campos.append(item)
+        #gravando num arquivo json para consulta futura
+    with open(f'campos_{campo}.json', 'w') as f:
+        json.dump(campos, f, indent=2)
+    return json.dumps(campos, indent=2)
 
 # Global Tempo client instance
 tempo_client = None
@@ -547,6 +495,89 @@ def get_accounts_for_tempo() -> str:
     except Exception as e:
         return f"Error fetching accounts: {str(e)}"
 
+def get_instructions_to_create_tarefa() -> str:
+    """Provide instructions on how to create a Jira task with custom fields.
+    
+    Returns:
+        A detailed instruction string
+    """
+    instructions = """To create a Jira task with custom fields, follow these steps:
+1. Identify the project key where you want to create the issue (e.g., 'ARQPERF').
+2. Determine the issue type (e.g., 'Tarefa', 'SubTarefa').
+3. Gather the necessary information: 
+    - Title (summary)
+    - Description (rich text supported)
+    - Assignee email
+    - Parent issue key (always required! If is a "Tarefa", must be a Epic. If is a "SubTarefa", must be a "Tarefa". If is not clear, ask to user)
+    - Custom fields that *MUST* be filled:
+        For task type "Tarefa":
+        - customfield_10310 (Estrutura): Must be a value from the allowed options.
+        - customfield_10311 (Tipo de Demanda (ARQPERF)): Must be a value from the allowed options.
+        - customfield_10058 (Account): Must be a value from the allowed options. 
+        - customfield_10312 (Processo): Must be a value from the allowed options. 
+        - customfield_10136 (CIP Team): Must be a value from the allowed options. 
+        - customfield_10015 (Start Date): Must be a date in YYYY-MM-DD format. Use today if the user do not provide.
+        - customfield_10339 (Origem da Demanda): Always ask the user to provide a value from the allowed options.
+        - customfield_10307 (Alinhamento) : Try to use the same value from the parent issue. If not possible, ask the user to provide a value from the allowed options.
+        - customfield_10308 (Quarter): Is the quarter of the year. Use the current quarter and pick from the allowed values
+        - customfield_10309 (Sprint Prevista) : Must be a value from the allowed options. If not possible, ask the user to provide a value from the allowed options.
+        
+*Remember*: If a custom field has a list of Allowed Values, try to figure out based on current context. If cannot be done, ask the user providing the available options to choose from.
+*Always* provide the custom fields values as objects when the type is not a scalar (e.g., single select, multi select, user picker) in the format '{"id": "id of the choice"}' or {"key": "if a key is available for the choice"}
+
+Before creating the issue, print the preview of the issue with all fields filled and ask the user to confirm before proceeding.
+
+Complete example of the request:
+{
+  "project": "ARQPERF",
+  "title": "Análise do problema da RRC0010 MQ em HEXT",
+  "issue_type": "Task",
+  "description": "Análise do problema da RRC0010 MQ em HEXT. Foi verificado a necessidade detabela faltante em HEXT para processar as requisições na AWS. Foi verificado que não foi criada uma tabela necessaria para o projeto das consultas na AWS em HEXT.\nTambém foi ajustada a configuração da fila que a API de consultas escuta no MQ. Foi feito um deploy da configuração apenas.",
+  "parent": "ARQPERF-2463",
+  "assignee_email": "luiz.sosinho@nuclea.com.br",
+  "custom_fields": {
+    "customfield_10310": {
+      "id": "11526"
+    },
+    "customfield_10311": {
+      "id": "11538"
+    },
+    "customfield_10058": 137,
+    "customfield_10312": {
+      "id": "11542"
+    },
+    "customfield_10136": {
+      "id": "10020"
+    },
+    "customfield_10015": "2025-09-08",
+    "customfield_10339": {
+      "id": "11605"
+    },
+    "customfield_10307": {
+      "value": "Alinhada na BRP"
+    },
+    "customfield_10308": {
+      "id": "11480"
+    },
+    "customfield_10309": {
+      "value": "20"
+    }
+  }
+}
+
+
+"""
+    return instructions
+
+def get_instructions_to_create_subtarefa() -> str:
+    """Provide instructions on how to create a Jira subtask with custom fields.
+    
+    Returns:
+        A detailed instruction string
+    """
+    instructions = """Not implemented yet. Tell the user that this feature is not available now."""
+    return instructions
+
 if __name__ == "__main__":
-   
-   print("OK")
+    campos = get_issue_type_custom_fields_by_project_impl("ARQPERF", "Tarefa")
+    print(campos)

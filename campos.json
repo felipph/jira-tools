@@ -1,0 +1,1632 @@
+[
+  {
+    "field": "summary",
+    "name": "Resumo",
+    "schema": "string",
+    "allowedValues": []
+  },
+  {
+    "field": "issuetype",
+    "name": "Tipo de item",
+    "schema": "issuetype",
+    "allowedValues": [
+      {
+        "id": "10045",
+        "name": "Tarefa"
+      }
+    ]
+  },
+  {
+    "field": "parent",
+    "name": "Pai",
+    "schema": "issuelink",
+    "allowedValues": []
+  },
+  {
+    "field": "description",
+    "name": "Descri\u00e7\u00e3o",
+    "schema": "string",
+    "allowedValues": []
+  },
+  {
+    "field": "project",
+    "name": "Projeto",
+    "schema": "project",
+    "allowedValues": [
+      {
+        "id": "10029",
+        "key": "ARQPERF",
+        "name": "CdE Arquitetura e Performance"
+      }
+    ]
+  },
+  {
+    "field": "customfield_10076",
+    "name": "Tamanho",
+    "schema": "option",
+    "allowedValues": [
+      {
+        "id": "10087",
+        "value": "PP"
+      },
+      {
+        "id": "10088",
+        "value": "P"
+      },
+      {
+        "id": "10089",
+        "value": "M"
+      },
+      {
+        "id": "10090",
+        "value": "G"
+      },
+      {
+        "id": "10091",
+        "value": "GG"
+      }
+    ]
+  },
+  {
+    "field": "priority",
+    "name": "Prioridade",
+    "schema": "priority",
+    "allowedValues": [
+      {
+        "id": "1",
+        "name": "Highest"
+      },
+      {
+        "id": "2",
+        "name": "High"
+      },
+      {
+        "id": "3",
+        "name": "Medium"
+      },
+      {
+        "id": "4",
+        "name": "Low"
+      },
+      {
+        "id": "5",
+        "name": "Lowest"
+      }
+    ]
+  },
+  {
+    "field": "customfield_10310",
+    "name": "Estrutura",
+    "schema": "option",
+    "allowedValues": [
+      {
+        "id": "11520",
+        "value": "Tribo de Antifraude"
+      },
+      {
+        "id": "11521",
+        "value": "Tribo de Ativos"
+      },
+      {
+        "id": "11522",
+        "value": "Tribo de CRT4"
+      },
+      {
+        "id": "11523",
+        "value": "Tribo de Dados"
+      },
+      {
+        "id": "11524",
+        "value": "Tribo de Infraestrutura"
+      },
+      {
+        "id": "11525",
+        "value": "Tribo de Pagamentos"
+      },
+      {
+        "id": "11526",
+        "value": "Tribo de Receb\u00edveis"
+      },
+      {
+        "id": "11527",
+        "value": "Tribo de Seguros"
+      },
+      {
+        "id": "11528",
+        "value": "Tribo de Servi\u00e7os TI"
+      },
+      {
+        "id": "11529",
+        "value": "Tribo de Tokeniza\u00e7\u00e3o e Novos Ativos"
+      },
+      {
+        "id": "11530",
+        "value": "Centros de Excel\u00eancia"
+      },
+      {
+        "id": "11531",
+        "value": "Estrutura de Apoio"
+      }
+    ]
+  },
+  {
+    "field": "customfield_10311",
+    "name": "Tipo de Demanda (ARQPERF)",
+    "schema": "option",
+    "allowedValues": [
+      {
+        "id": "11536",
+        "value": "Novo Produto/Sistema"
+      },
+      {
+        "id": "11537",
+        "value": "Evolu\u00e7\u00e3o de Produto/Sistema"
+      },
+      {
+        "id": "11534",
+        "value": "MVP"
+      },
+      {
+        "id": "11535",
+        "value": "Idea\u00e7\u00e3o (Grau W)"
+      },
+      {
+        "id": "11538",
+        "value": "Apoio/Sustenta\u00e7\u00e3o"
+      },
+      {
+        "id": "11539",
+        "value": "Processos/Governan\u00e7a"
+      },
+      {
+        "id": "11802",
+        "value": "Pessoas"
+      },
+      {
+        "id": "11812",
+        "value": "Novas tecnologias (Estudo, POC ou Homologa\u00e7\u00e3o)"
+      }
+    ]
+  },
+  {
+    "field": "customfield_10058",
+    "name": "Account",
+    "schema": "option2",
+    "allowedValues": [
+      {
+        "id": 106,
+        "value": "STD-FUNDEB"
+      },
+      {
+        "id": 132,
+        "value": "PRJ - Migra\u00e7\u00e3o CRT4"
+      },
+      {
+        "id": 133,
+        "value": "PRJ - Escritura\u00e7\u00e3o de Duplicatas"
+      },
+      {
+        "id": 135,
+        "value": "PRJ - Antecipa\u00e7\u00e3o com Liquida\u00e7\u00e3o por PIX"
+      },
+      {
+        "id": 127,
+        "value": "Arquitetura"
+      },
+      {
+        "id": 109,
+        "value": "PRJ - SRO"
+      },
+      {
+        "id": 110,
+        "value": "Produtos de Dados"
+      },
+      {
+        "id": 137,
+        "value": "PRJ - Receb\u00edveis Moderniza\u00e7\u00e3o AWS"
+      },
+      {
+        "id": 129,
+        "value": "PRJ - SCCP"
+      },
+      {
+        "id": 130,
+        "value": "PRJ - Registro de Cr\u00e9dito com Garantia em Previd\u00eancia e Capitaliza\u00e7\u00e3o"
+      },
+      {
+        "id": 107,
+        "value": "PRJ - Tokeniza\u00e7\u00e3o Novos Ativos"
+      },
+      {
+        "id": 138,
+        "value": "PRJ - Receb\u00edveis Portal de Clientes"
+      },
+      {
+        "id": 139,
+        "value": "PRJ - Receb\u00edveis Evolu\u00e7\u00e3o da Agenda"
+      },
+      {
+        "id": 131,
+        "value": "PRJ - Canal digital e autosservi\u00e7o"
+      },
+      {
+        "id": 108,
+        "value": "PRJ - Tokeniza\u00e7\u00e3o Imobili\u00e1ria"
+      },
+      {
+        "id": 119,
+        "value": "PRJ - Servi\u00e7o de Consulta de Boleto"
+      },
+      {
+        "id": 134,
+        "value": "CRCP"
+      },
+      {
+        "id": 140,
+        "value": "PRJ - Receb\u00edveis Promessa de Cess\u00e3o"
+      },
+      {
+        "id": 123,
+        "value": "PRJ - Solu\u00e7\u00e3o de Firmas e Poderes"
+      },
+      {
+        "id": 9,
+        "value": "PCR"
+      },
+      {
+        "id": 13,
+        "value": "SILOC"
+      },
+      {
+        "id": 25,
+        "value": "C3"
+      },
+      {
+        "id": 44,
+        "value": "Atividades Corporativas"
+      },
+      {
+        "id": 104,
+        "value": "Detecta Flow"
+      },
+      {
+        "id": 93,
+        "value": "PRJ - Projeto Sistema Integrado de Recupera\u00e7\u00e3o de Valores (SIRV)"
+      },
+      {
+        "id": 111,
+        "value": "PRJ - Deposit\u00e1ria CRT4"
+      },
+      {
+        "id": 143,
+        "value": "PRJ - TCO - GDP-776"
+      },
+      {
+        "id": 112,
+        "value": "PRJ - Solu\u00e7\u00f5es de Cr\u00e9dito - Novas Iniciativas"
+      },
+      {
+        "id": 102,
+        "value": "STD-CNF"
+      },
+      {
+        "id": 136,
+        "value": "PRJ - Receb\u00edveis Expans\u00e3o Processamento"
+      },
+      {
+        "id": 8,
+        "value": "PCA"
+      },
+      {
+        "id": 12,
+        "value": "SITRAF"
+      },
+      {
+        "id": 14,
+        "value": "SLC"
+      },
+      {
+        "id": 17,
+        "value": "Open Banking"
+      },
+      {
+        "id": 19,
+        "value": "PCPO"
+      },
+      {
+        "id": 21,
+        "value": "SCC"
+      },
+      {
+        "id": 22,
+        "value": "SRCC"
+      },
+      {
+        "id": 23,
+        "value": "MCB"
+      },
+      {
+        "id": 26,
+        "value": "CTC"
+      },
+      {
+        "id": 29,
+        "value": "R2C3"
+      },
+      {
+        "id": 27,
+        "value": "PCPS"
+      },
+      {
+        "id": 142,
+        "value": "PRJ - Derivativos - GDP-635"
+      },
+      {
+        "id": 103,
+        "value": "Conecta Dados"
+      },
+      {
+        "id": 105,
+        "value": "PRJ - Internaliza\u00e7\u00e3o do SILOC (B3)"
+      },
+      {
+        "id": 113,
+        "value": "PRJ - Portal do Desenvolvedor"
+      },
+      {
+        "id": 114,
+        "value": "PRJ - Indicadores de Fraude"
+      },
+      {
+        "id": 115,
+        "value": "PRJ - Hub de Garantias"
+      },
+      {
+        "id": 141,
+        "value": "PRJ - Ativos - GDP-591"
+      },
+      {
+        "id": 28,
+        "value": "CQL"
+      },
+      {
+        "id": 144,
+        "value": "PRJ - CNPJ Alfanum\u00e9rico"
+      }
+    ]
+  },
+  {
+    "field": "customfield_10312",
+    "name": "Processo",
+    "schema": "option",
+    "allowedValues": [
+      {
+        "id": "11540",
+        "value": "Desenho de solu\u00e7\u00e3o"
+      },
+      {
+        "id": "11541",
+        "value": "Especifica\u00e7\u00e3o t\u00e9cnica"
+      },
+      {
+        "id": "11542",
+        "value": "Desenvolvimento"
+      },
+      {
+        "id": "11544",
+        "value": "Pessoas"
+      },
+      {
+        "id": "11545",
+        "value": "Processos/Governan\u00e7a"
+      },
+      {
+        "id": "11546",
+        "value": "Apoio/Sustenta\u00e7\u00e3o"
+      },
+      {
+        "id": "11547",
+        "value": "Dados"
+      },
+      {
+        "id": "11548",
+        "value": "Performance e resili\u00eancia"
+      },
+      {
+        "id": "11718",
+        "value": "Novas tecnologias (Estudo, POC ou Homologa\u00e7\u00e3o)"
+      }
+    ]
+  },
+  {
+    "field": "customfield_10136",
+    "name": "CIP Team",
+    "schema": "project",
+    "allowedValues": [
+      {
+        "id": "10171",
+        "key": "ACMA",
+        "name": "[ATIVOS] CPO Migra\u00e7\u00e3o AWS"
+      },
+      {
+        "id": "10205",
+        "key": "APDCCMA",
+        "name": "[ATIVOS] Portabilidade de Cr\u00e9dito (CTC) - Migra\u00e7\u00e3o AWS"
+      },
+      {
+        "id": "10206",
+        "key": "APDSPMA",
+        "name": "[ATIVOS] Portabilidade de Sal\u00e1rio (PCPS) - Migra\u00e7\u00e3o AWS"
+      },
+      {
+        "id": "10198",
+        "key": "APMA",
+        "name": "[ATIVOS] Portabilidade Migra\u00e7\u00e3o AWS"
+      },
+      {
+        "id": "10207",
+        "key": "APPEMMA",
+        "name": "[ATIVOS] Portais Portabilidade e Monitoramento - Migra\u00e7\u00e3o AWS"
+      },
+      {
+        "id": "10180",
+        "key": "AADNEB",
+        "name": "Agenda de NFs e Boleto"
+      },
+      {
+        "id": "10152",
+        "key": "ACPCLI",
+        "name": "Ambiente de Conectividade e Processamento - ACP Cliente"
+      },
+      {
+        "id": "10148",
+        "key": "ACPEXT",
+        "name": "Ambiente de Conectividade e Processamento - ACP EXT"
+      },
+      {
+        "id": "10147",
+        "key": "ACPINT",
+        "name": "Ambiente de Conectividade e Processamento - ACP INT"
+      },
+      {
+        "id": "10154",
+        "key": "ADI",
+        "name": "An\u00e1lise de Investimentos"
+      },
+      {
+        "id": "10084",
+        "key": "APREND",
+        "name": "Aprendizagem"
+      },
+      {
+        "id": "10006",
+        "key": "PCA",
+        "name": "Arrecada\u00e7\u00e3o"
+      },
+      {
+        "id": "10045",
+        "key": "ASSEXC",
+        "name": "Assessoria Executiva"
+      },
+      {
+        "id": "10028",
+        "key": "FMWK",
+        "name": "Atlante e Arche"
+      },
+      {
+        "id": "10055",
+        "key": "BD",
+        "name": "Bancos de Dados"
+      },
+      {
+        "id": "10108",
+        "key": "BDC",
+        "name": "Base de Conhecimento"
+      },
+      {
+        "id": "10140",
+        "key": "BDTE",
+        "name": "Base de Testes | e-Core"
+      },
+      {
+        "id": "10021",
+        "key": "PCR",
+        "name": "Boleto"
+      },
+      {
+        "id": "10017",
+        "key": "PCPO",
+        "name": "Cadastro Positivo"
+      },
+      {
+        "id": "10440",
+        "key": "CD",
+        "name": "Canal Digital"
+      },
+      {
+        "id": "10119",
+        "key": "CAPJIRA",
+        "name": "Capacita\u00e7\u00e3o de Jira"
+      },
+      {
+        "id": "10100",
+        "key": "CAPAGILAT",
+        "name": "Cap\u00edtulo de Agilidade - Ativos"
+      },
+      {
+        "id": "10101",
+        "key": "CAPAGILPR",
+        "name": "Cap\u00edtulo de Agilidade - Pagamentos e Recebimentos"
+      },
+      {
+        "id": "10141",
+        "key": "CAPAGILTI",
+        "name": "Cap\u00edtulo de Agilidade - Servi\u00e7os de TI"
+      },
+      {
+        "id": "10105",
+        "key": "CAPARTAT",
+        "name": "Cap\u00edtulo de Artefatos - Ativos"
+      },
+      {
+        "id": "10103",
+        "key": "CAPARTPR",
+        "name": "Cap\u00edtulo de Artefatos - Pagamentos e Recebimentos"
+      },
+      {
+        "id": "10177",
+        "key": "CAPCIENDD",
+        "name": "Cap\u00edtulo de Ci\u00eancia de Dados - Dados"
+      },
+      {
+        "id": "10099",
+        "key": "CAPDEVAT",
+        "name": "Cap\u00edtulo de Desenvolvimento - Ativos"
+      },
+      {
+        "id": "10102",
+        "key": "CAPDEVPR",
+        "name": "Cap\u00edtulo de Desenvolvimento - Pagamentos e Recebimentos"
+      },
+      {
+        "id": "10089",
+        "key": "CAPNEGAT",
+        "name": "Cap\u00edtulo de Neg\u00f3cios - Ativos"
+      },
+      {
+        "id": "10104",
+        "key": "CAPNEGPR",
+        "name": "Cap\u00edtulo de Neg\u00f3cios - Pagamentos e Recebimentos"
+      },
+      {
+        "id": "10076",
+        "key": "CAPQAAT",
+        "name": "Cap\u00edtulo de QA - Ativos"
+      },
+      {
+        "id": "10082",
+        "key": "CAPQAPR",
+        "name": "Cap\u00edtulo de QA - Pagamentos e Recebimentos"
+      },
+      {
+        "id": "10083",
+        "key": "CAPQATI",
+        "name": "Cap\u00edtulo de QA - Servi\u00e7os de TI"
+      },
+      {
+        "id": "10065",
+        "key": "CDEAGIL",
+        "name": "CdE Agilidade"
+      },
+      {
+        "id": "10029",
+        "key": "ARQPERF",
+        "name": "CdE Arquitetura e Performance"
+      },
+      {
+        "id": "10050",
+        "key": "CLI",
+        "name": "CdE Cliente"
+      },
+      {
+        "id": "10048",
+        "key": "BISRVDEM",
+        "name": "CdE Dados"
+      },
+      {
+        "id": "10375",
+        "key": "CDAEI",
+        "name": "CdE de Automa\u00e7\u00e3o e IA"
+      },
+      {
+        "id": "10078",
+        "key": "DSERV",
+        "name": "CdE Desenho de Servi\u00e7os"
+      },
+      {
+        "id": "10025",
+        "key": "CDEDSG",
+        "name": "CdE Design"
+      },
+      {
+        "id": "10129",
+        "key": "CDEUXUI",
+        "name": "CdE Design de Experi\u00eancia (UX) e Interface do Usu\u00e1rio (UI)"
+      },
+      {
+        "id": "10079",
+        "key": "PROJSEG",
+        "name": "CdE Projetos e Arquitetura da Seguran\u00e7a"
+      },
+      {
+        "id": "10159",
+        "key": "CENT",
+        "name": "Centralidade Clientes"
+      },
+      {
+        "id": "10087",
+        "key": "CIAC",
+        "name": "Centro Intelig\u00eancia Amea\u00e7as Cibern\u00e9ticas"
+      },
+      {
+        "id": "10088",
+        "key": "SOC",
+        "name": "Centro Opera\u00e7\u00f5es Seguran\u00e7a"
+      },
+      {
+        "id": "10013",
+        "key": "C3",
+        "name": "Cess\u00e3o de Cr\u00e9dito - C3"
+      },
+      {
+        "id": "10005",
+        "key": "CHK",
+        "name": "Checklist e Disponibilidade"
+      },
+      {
+        "id": "10164",
+        "key": "CIPA",
+        "name": "CIPA"
+      },
+      {
+        "id": "10341",
+        "key": "CIR",
+        "name": "Cirrus"
+      },
+      {
+        "id": "10057",
+        "key": "CTE",
+        "name": "CloudTech"
+      },
+      {
+        "id": "10044",
+        "key": "COMPL",
+        "name": "Compliance"
+      },
+      {
+        "id": "10023",
+        "key": "CPC",
+        "name": "Componentes Comuns"
+      },
+      {
+        "id": "10039",
+        "key": "CMPFAC",
+        "name": "Compras e Facilities"
+      },
+      {
+        "id": "10037",
+        "key": "COM",
+        "name": "Comunica\u00e7\u00e3o & Mobiliza\u00e7\u00e3o"
+      },
+      {
+        "id": "10151",
+        "key": "PRODEXC",
+        "name": "Conectalab"
+      },
+      {
+        "id": "10046",
+        "key": "CONSIG",
+        "name": "Consignado"
+      },
+      {
+        "id": "10188",
+        "key": "CONTNEG",
+        "name": "Continuidade de Neg\u00f3cios"
+      },
+      {
+        "id": "10027",
+        "key": "CTRL",
+        "name": "Controladoria"
+      },
+      {
+        "id": "10032",
+        "key": "CTRI",
+        "name": "Controles Internos"
+      },
+      {
+        "id": "10240",
+        "key": "PREVCAP",
+        "name": "Cr\u00e9dito com Garantia de Previd\u00eancia e Capitaliza\u00e7\u00e3o"
+      },
+      {
+        "id": "10275",
+        "key": "DER",
+        "name": "Derivativos"
+      },
+      {
+        "id": "10672",
+        "key": "DR",
+        "name": "Derivativos - Projeto TME "
+      },
+      {
+        "id": "10803",
+        "key": "DTDM",
+        "name": "Derivativos - Termo de Mercadorias "
+      },
+      {
+        "id": "10109",
+        "key": "SIRV",
+        "name": "Detectaflow"
+      },
+      {
+        "id": "10158",
+        "key": "DEVNA",
+        "name": "DevOps New Age"
+      },
+      {
+        "id": "10073",
+        "key": "DSO",
+        "name": "DevSecOps"
+      },
+      {
+        "id": "10112",
+        "key": "DSOSRE",
+        "name": "DevSecOps SRE - R2C3"
+      },
+      {
+        "id": "10218",
+        "key": "DIRCOM",
+        "name": "Diretoria Comercial"
+      },
+      {
+        "id": "10014",
+        "key": "DUP",
+        "name": "Duplicata"
+      },
+      {
+        "id": "10189",
+        "key": "DMDA",
+        "name": "Duplicata - Moderniza\u00e7\u00e3o da Arquitetura"
+      },
+      {
+        "id": "10191",
+        "key": "DD",
+        "name": "Duplicata Regulat\u00f3rio"
+      },
+      {
+        "id": "10226",
+        "key": "ECOTAS",
+        "name": "E-cotas N\u00faclea"
+      },
+      {
+        "id": "10165",
+        "key": "EBT2",
+        "name": "Everton Board Teste"
+      },
+      {
+        "id": "10237",
+        "key": "FIRP",
+        "name": "Firmas e Poderes"
+      },
+      {
+        "id": "10871",
+        "key": "GEG",
+        "name": "Gente e Gest\u00e3o"
+      },
+      {
+        "id": "10066",
+        "key": "GA",
+        "name": "Gest\u00e3o de Acessos"
+      },
+      {
+        "id": "10024",
+        "key": "API",
+        "name": "Gest\u00e3o de API"
+      },
+      {
+        "id": "10070",
+        "key": "GMUD",
+        "name": "Gest\u00e3o de Mudan\u00e7as"
+      },
+      {
+        "id": "10143",
+        "key": "GDP",
+        "name": "Gest\u00e3o de Portf\u00f3lio"
+      },
+      {
+        "id": "10074",
+        "key": "CFA",
+        "name": "Gest\u00e3o Opera\u00e7\u00e3o"
+      },
+      {
+        "id": "10090",
+        "key": "PERF",
+        "name": "Gest\u00e3o Performance DH"
+      },
+      {
+        "id": "10203",
+        "key": "PMOGRI",
+        "name": "Governanca de Projetos - PMO"
+      },
+      {
+        "id": "10071",
+        "key": "ATVKPI",
+        "name": "Governanca TI e FinOps"
+      },
+      {
+        "id": "10077",
+        "key": "GOVSIRC",
+        "name": "Governan\u00e7a TSIRC"
+      },
+      {
+        "id": "10208",
+        "key": "HAB",
+        "name": "HABITA"
+      },
+      {
+        "id": "10061",
+        "key": "HLPD",
+        "name": "Help Desk"
+      },
+      {
+        "id": "10160",
+        "key": "HGT",
+        "name": "Hub de Boleto Din\u00e2mico"
+      },
+      {
+        "id": "10185",
+        "key": "PRODPARC",
+        "name": "Hub de Dados"
+      },
+      {
+        "id": "10212",
+        "key": "IA",
+        "name": "I.A"
+      },
+      {
+        "id": "10139",
+        "key": "INDFRAUDE",
+        "name": "Integra Dados"
+      },
+      {
+        "id": "10201",
+        "key": "ICJ",
+        "name": "Integra\u00e7\u00f5es Com Jira"
+      },
+      {
+        "id": "10182",
+        "key": "ITSM",
+        "name": "ITSM"
+      },
+      {
+        "id": "10187",
+        "key": "JORNCOLAB",
+        "name": "Jornada do Colaborador"
+      },
+      {
+        "id": "10047",
+        "key": "JUR",
+        "name": "Jur\u00eddico & Gov Corporativa"
+      },
+      {
+        "id": "10007",
+        "key": "LABAGIL1",
+        "name": "LAB Agilidade 1"
+      },
+      {
+        "id": "10135",
+        "key": "LIQEXT",
+        "name": "Liquida\u00e7\u00e3o EXT"
+      },
+      {
+        "id": "10035",
+        "key": "LIQ",
+        "name": "Liquida\u00e7\u00e3o INT"
+      },
+      {
+        "id": "10060",
+        "key": "MICR",
+        "name": "Microinform\u00e1tica"
+      },
+      {
+        "id": "10056",
+        "key": "MIDL",
+        "name": "Middleware"
+      },
+      {
+        "id": "10202",
+        "key": "MODNAOTI",
+        "name": "Modelo de Projeto N\u00e3o TI"
+      },
+      {
+        "id": "10241",
+        "key": "MODC3",
+        "name": "Moderniza\u00e7\u00e3o da C3"
+      },
+      {
+        "id": "10175",
+        "key": "MDLFE",
+        "name": "Moderniza\u00e7\u00e3o da Liquida\u00e7\u00e3o (Front-End)"
+      },
+      {
+        "id": "10156",
+        "key": "MDL",
+        "name": "Moderniza\u00e7\u00e3o da Liquida\u00e7\u00e3o - SILOC (BE)"
+      },
+      {
+        "id": "10196",
+        "key": "MDLSIT",
+        "name": "Moderniza\u00e7\u00e3o da Liquida\u00e7\u00e3o - SITRAF (BE)"
+      },
+      {
+        "id": "10235",
+        "key": "MDLFESIT",
+        "name": "Moderniza\u00e7\u00e3o da Liquida\u00e7\u00e3o \u2013 SITRAF (FE)"
+      },
+      {
+        "id": "10015",
+        "key": "MOTORDEC",
+        "name": "Motor de Decis\u00e3o"
+      },
+      {
+        "id": "10706",
+        "key": "NPORT",
+        "name": "Novo Portf\u00f3lio"
+      },
+      {
+        "id": "10157",
+        "key": "NOVNEG",
+        "name": "Novos Neg\u00f3cios"
+      },
+      {
+        "id": "10166",
+        "key": "NUA",
+        "name": "N\u00faclea Academy"
+      },
+      {
+        "id": "10072",
+        "key": "TMS",
+        "name": "N\u00daCLEA GERAL - TIMESHEET"
+      },
+      {
+        "id": "10022",
+        "key": "OPBK",
+        "name": "Open Finance"
+      },
+      {
+        "id": "10215",
+        "key": "PDT",
+        "name": "PCR4 - 1. Delivery (Testes)"
+      },
+      {
+        "id": "10214",
+        "key": "PCRT4",
+        "name": "PCRT4 - Homologa\u00e7\u00e3o"
+      },
+      {
+        "id": "10737",
+        "key": "PIX",
+        "name": "PIX"
+      },
+      {
+        "id": "10124",
+        "key": "PLANCOM",
+        "name": "Planejamento Comercial"
+      },
+      {
+        "id": "10068",
+        "key": "PFN",
+        "name": "Planejamento Financeiro & NEO"
+      },
+      {
+        "id": "10058",
+        "key": "PLAT",
+        "name": "Plataforma"
+      },
+      {
+        "id": "10242",
+        "key": "PAM",
+        "name": "Plataforma AI & ML"
+      },
+      {
+        "id": "10149",
+        "key": "PDD",
+        "name": "Plataforma Data Lake"
+      },
+      {
+        "id": "10195",
+        "key": "PDP",
+        "name": "Plataforma de Produtos"
+      },
+      {
+        "id": "10110",
+        "key": "PZ",
+        "name": "POC Zephyr"
+      },
+      {
+        "id": "10030",
+        "key": "PORT",
+        "name": "Portabilidade"
+      },
+      {
+        "id": "10009",
+        "key": "CRMPP",
+        "name": "Portais (CRM - Portal do Participante)"
+      },
+      {
+        "id": "10200",
+        "key": "PTDEV",
+        "name": "Portal do Desenvolvedor N\u00faclea"
+      },
+      {
+        "id": "10238",
+        "key": "PRIC",
+        "name": "Pricing"
+      },
+      {
+        "id": "10173",
+        "key": "PRODSEG",
+        "name": "Produtos de Dados de Seguros"
+      },
+      {
+        "id": "10150",
+        "key": "PRODPRAT",
+        "name": "Produtos de Prateleira"
+      },
+      {
+        "id": "10184",
+        "key": "PIT",
+        "name": "Produ\u00e7\u00e3o IT"
+      },
+      {
+        "id": "10069",
+        "key": "PTI",
+        "name": "Produ\u00e7\u00e3o TI"
+      },
+      {
+        "id": "10163",
+        "key": "QUAL",
+        "name": "Qualidade"
+      },
+      {
+        "id": "10107",
+        "key": "CNTST",
+        "name": "R2C3 - Contesta\u00e7\u00e3o"
+      },
+      {
+        "id": "10111",
+        "key": "R2C3DL",
+        "name": "R2C3 - Data Lake"
+      },
+      {
+        "id": "10231",
+        "key": "RDR",
+        "name": "R2C3-Dados Receb\u00edveis"
+      },
+      {
+        "id": "10167",
+        "key": "ASRDRR",
+        "name": "R2C3-Estabiliza\u00e7\u00e3o"
+      },
+      {
+        "id": "10606",
+        "key": "EST",
+        "name": "R2C3-Estruturante"
+      },
+      {
+        "id": "10229",
+        "key": "RE",
+        "name": "R2C3-Evolu\u00e7\u00e3o"
+      },
+      {
+        "id": "10234",
+        "key": "RI",
+        "name": "R2C3-Interop"
+      },
+      {
+        "id": "10232",
+        "key": "RM",
+        "name": "R2C3-Moderniza\u00e7\u00e3o"
+      },
+      {
+        "id": "10968",
+        "key": "RPRR",
+        "name": "R2C3-Portal Receb\u00edveis"
+      },
+      {
+        "id": "10054",
+        "key": "RDI",
+        "name": "Redes e Instala\u00e7\u00f5es DC"
+      },
+      {
+        "id": "10020",
+        "key": "R2C3",
+        "name": "Registradora de Registro de Receb\u00edveis"
+      },
+      {
+        "id": "10064",
+        "key": "RAT",
+        "name": "Registro de Ativos"
+      },
+      {
+        "id": "10080",
+        "key": "RT",
+        "name": "Rela\u00e7\u00f5es Trabalhistas"
+      },
+      {
+        "id": "10038",
+        "key": "REM",
+        "name": "Remunera\u00e7\u00e3o"
+      },
+      {
+        "id": "10308",
+        "key": "RFX",
+        "name": "Renda Fixa"
+      },
+      {
+        "id": "10016",
+        "key": "RSC",
+        "name": "Riscos"
+      },
+      {
+        "id": "10210",
+        "key": "SSP",
+        "name": "Sample Scrum Project"
+      },
+      {
+        "id": "10539",
+        "key": "SSPA",
+        "name": "Sample Scrum Project A"
+      },
+      {
+        "id": "10605",
+        "key": "SSPB",
+        "name": "Sample Scrum Project B"
+      },
+      {
+        "id": "10638",
+        "key": "SSPC",
+        "name": "Sample Scrum Project C"
+      },
+      {
+        "id": "10041",
+        "key": "SEL",
+        "name": "Sele\u00e7\u00e3o"
+      },
+      {
+        "id": "10059",
+        "key": "WIND",
+        "name": "Servidores Windows"
+      },
+      {
+        "id": "10239",
+        "key": "SCCP",
+        "name": "Sistema de Confirma\u00e7\u00e3o de Carta de Perman\u00eancia"
+      },
+      {
+        "id": "10116",
+        "key": "SCDHEO",
+        "name": "Sistemas Corporativos DH/EO"
+      },
+      {
+        "id": "10183",
+        "key": "NIMBLE",
+        "name": "Solicita\u00e7\u00f5es Nimble"
+      },
+      {
+        "id": "10197",
+        "key": "SRO",
+        "name": "SRO Cliente"
+      },
+      {
+        "id": "10836",
+        "key": "SROCO",
+        "name": "SRO Core"
+      },
+      {
+        "id": "10053",
+        "key": "STRG",
+        "name": "Storage"
+      },
+      {
+        "id": "10153",
+        "key": "SC",
+        "name": "Suporte Corporativo"
+      },
+      {
+        "id": "10131",
+        "key": "TRC",
+        "name": "Tarifas Centralizadas"
+      },
+      {
+        "id": "10174",
+        "key": "TECHGRC",
+        "name": "Tech GRC+"
+      },
+      {
+        "id": "10012",
+        "key": "PRCCSEG",
+        "name": "TechGRC+_LEGADO"
+      },
+      {
+        "id": "10473",
+        "key": "TS",
+        "name": "Teste "
+      },
+      {
+        "id": "10217",
+        "key": "TMONTEC",
+        "name": "TESTE MONTEC"
+      },
+      {
+        "id": "10136",
+        "key": "TNC",
+        "name": "Teste Novos Campos"
+      },
+      {
+        "id": "11001",
+        "key": "TTF",
+        "name": "Teste transf"
+      },
+      {
+        "id": "10130",
+        "key": "TECHNNP",
+        "name": "Teste_Robson"
+      },
+      {
+        "id": "10407",
+        "key": "TESP",
+        "name": "Testes"
+      },
+      {
+        "id": "10209",
+        "key": "ESPEC",
+        "name": "Time de Especialistas"
+      },
+      {
+        "id": "10178",
+        "key": "IMOB",
+        "name": "Time de Imobili\u00e1rio"
+      },
+      {
+        "id": "10018",
+        "key": "SEG",
+        "name": "Time de Seguros"
+      },
+      {
+        "id": "10186",
+        "key": "TOKEN",
+        "name": "Time de Tokeniza\u00e7\u00e3o"
+      },
+      {
+        "id": "10227",
+        "key": "TOKNUC",
+        "name": "Tokenizadora N\u00faclea "
+      },
+      {
+        "id": "10194",
+        "key": "TRANT",
+        "name": "Tribo de Antifraude"
+      },
+      {
+        "id": "10095",
+        "key": "TRATIVOS",
+        "name": "Tribo de Ativos"
+      },
+      {
+        "id": "10168",
+        "key": "TRBALC",
+        "name": "Tribo de Balc\u00e3o"
+      },
+      {
+        "id": "10142",
+        "key": "TRDADOS",
+        "name": "Tribo de Dados"
+      },
+      {
+        "id": "10093",
+        "key": "TRINFRA",
+        "name": "Tribo de Infra"
+      },
+      {
+        "id": "10094",
+        "key": "TRPAGREC",
+        "name": "Tribo de Pagamentos e Recebimentos"
+      },
+      {
+        "id": "10192",
+        "key": "TRRECEB",
+        "name": "Tribo de Receb\u00edveis"
+      },
+      {
+        "id": "10169",
+        "key": "TRSEG",
+        "name": "Tribo de Seguros"
+      },
+      {
+        "id": "10086",
+        "key": "TRSERVTI",
+        "name": "Tribo de Servi\u00e7os TI"
+      },
+      {
+        "id": "10161",
+        "key": "TRTOKEN",
+        "name": "Tribo de Tokeniza\u00e7\u00e3o e Novos Ativos"
+      },
+      {
+        "id": "10193",
+        "key": "TND",
+        "name": "TriboDados - Agilidade"
+      },
+      {
+        "id": "10506",
+        "key": "TPDA",
+        "name": "TRRECEB - Plano de A\u00e7\u00e3o"
+      },
+      {
+        "id": "10052",
+        "key": "UNX",
+        "name": "Unix"
+      },
+      {
+        "id": "10062",
+        "key": "USF",
+        "name": "Usu\u00e1rio Final"
+      }
+    ]
+  },
+  {
+    "field": "customfield_10015",
+    "name": "Start date",
+    "schema": "date",
+    "allowedValues": []
+  },
+  {
+    "field": "labels",
+    "name": "Categorias",
+    "schema": "array",
+    "allowedValues": []
+  },
+  {
+    "field": "customfield_10339",
+    "name": "Origem da Demanda",
+    "schema": "option",
+    "allowedValues": [
+      {
+        "id": "11604",
+        "value": "OKR"
+      },
+      {
+        "id": "11605",
+        "value": "Meta"
+      },
+      {
+        "id": "11606",
+        "value": "Atividade Adicional"
+      }
+    ]
+  },
+  {
+    "field": "customfield_10307",
+    "name": "Alinhamento",
+    "schema": "option",
+    "allowedValues": [
+      {
+        "id": "11475",
+        "value": "Alinhada na BRP"
+      },
+      {
+        "id": "11476",
+        "value": "Alinhada fora da BRP"
+      },
+      {
+        "id": "11477",
+        "value": "N\u00e3o Prevista"
+      }
+    ]
+  },
+  {
+    "field": "customfield_10308",
+    "name": "Quarter",
+    "schema": "option",
+    "allowedValues": [
+      {
+        "id": "11478",
+        "value": "Q1/2025"
+      },
+      {
+        "id": "11479",
+        "value": "Q2/2025"
+      },
+      {
+        "id": "11480",
+        "value": "Q3/2025"
+      },
+      {
+        "id": "11481",
+        "value": "Q4/2025"
+      },
+      {
+        "id": "11482",
+        "value": "Q1/2026"
+      },
+      {
+        "id": "11483",
+        "value": "Q2/2026"
+      },
+      {
+        "id": "11484",
+        "value": "Q3/2026"
+      },
+      {
+        "id": "11485",
+        "value": "Q4/2026"
+      },
+      {
+        "id": "11486",
+        "value": "Q1/2027"
+      },
+      {
+        "id": "11487",
+        "value": "Q2/2027"
+      },
+      {
+        "id": "11488",
+        "value": "Q3/2027"
+      },
+      {
+        "id": "11489",
+        "value": "Q4/2027"
+      }
+    ]
+  },
+  {
+    "field": "duedate",
+    "name": "Data limite",
+    "schema": "date",
+    "allowedValues": []
+  },
+  {
+    "field": "customfield_10309",
+    "name": "Sprint Prevista",
+    "schema": "option",
+    "allowedValues": [
+      {
+        "id": "11490",
+        "value": "1"
+      },
+      {
+        "id": "11491",
+        "value": "2"
+      },
+      {
+        "id": "11492",
+        "value": "3"
+      },
+      {
+        "id": "11493",
+        "value": "4"
+      },
+      {
+        "id": "11494",
+        "value": "5"
+      },
+      {
+        "id": "11495",
+        "value": "6"
+      },
+      {
+        "id": "11496",
+        "value": "7"
+      },
+      {
+        "id": "11497",
+        "value": "8"
+      },
+      {
+        "id": "11498",
+        "value": "9"
+      },
+      {
+        "id": "11499",
+        "value": "10"
+      },
+      {
+        "id": "11500",
+        "value": "11"
+      },
+      {
+        "id": "11501",
+        "value": "12"
+      },
+      {
+        "id": "11502",
+        "value": "13"
+      },
+      {
+        "id": "11503",
+        "value": "14"
+      },
+      {
+        "id": "11504",
+        "value": "15"
+      },
+      {
+        "id": "11505",
+        "value": "16"
+      },
+      {
+        "id": "11506",
+        "value": "17"
+      },
+      {
+        "id": "11507",
+        "value": "18"
+      },
+      {
+        "id": "11508",
+        "value": "19"
+      },
+      {
+        "id": "11509",
+        "value": "20"
+      },
+      {
+        "id": "11510",
+        "value": "21"
+      },
+      {
+        "id": "11511",
+        "value": "22"
+      },
+      {
+        "id": "11512",
+        "value": "23"
+      },
+      {
+        "id": "11513",
+        "value": "24"
+      },
+      {
+        "id": "11514",
+        "value": "25"
+      },
+      {
+        "id": "11515",
+        "value": "26"
+      },
+      {
+        "id": "11516",
+        "value": "27"
+      },
+      {
+        "id": "11517",
+        "value": "28"
+      },
+      {
+        "id": "11518",
+        "value": "29"
+      },
+      {
+        "id": "11519",
+        "value": "30"
+      }
+    ]
+  },
+  {
+    "field": "assignee",
+    "name": "Respons\u00e1vel",
+    "schema": "user",
+    "allowedValues": []
+  }
+]

@@ -1,3 +1,4 @@
+
 from typing import Dict, Any
 import logging
 from mcp.server.fastmcp import FastMCP
@@ -10,76 +11,90 @@ logging.basicConfig(level=logging.INFO)
 mcp = FastMCP("jira-tools")
 
 @mcp.tool()
+def get_last_comments(issue_key: str, n: int = 5) -> Any:
+    """
+    Get the last N comments of a Jira card/issue.
+    Args:
+        issue_key: The key of the Jira card/issue (e.g., 'PROJ-123')
+        n: Number of last comments to retrieve (default: 5)
+    Returns:
+        List of comments (each as dict with author, created, body)
+    """
+    return get_last_comments_impl(issue_key, n)
+
+@mcp.tool()
+def add_comment_to_card(issue_key: str, comment_markdown: str) -> str:
+    """
+    Add a comment to a Jira card/issue. Accepts markdown format for the comment.
+    Args:
+        issue_key: The key of the Jira card/issue (e.g., 'PROJ-123')
+        comment_markdown: The comment in markdown format
+    Returns:
+        Success message or error
+    """
+    return add_comment_to_issue_impl(issue_key, comment_markdown)
+
+
+@mcp.tool()
 def create_jira_issue(
     project: str,
+    parent: str,
+    assignee_email: str,
     title: str,
     issue_type: str,
     description: str,
-    parent: str = None,
-    assignee_email: str = None,
-    custom_fields: Dict[str, Any] = None
+    estrutura: str,
+    tipo_demanda: str,
+    account: int,
+    processo: str,
+    cip_team: str,
+    start_date: str,
+    origem_demanda: str,
+    alinhamento: str,
+    quarter: str,
+    sprint_prevista: str
 ) -> str:
-    """Create a Jira issue with support for custom fields and rich text description.
-
-    Use this tool to create new issues in Jira. The description supports Jira wiki markup for rich text
-    formatting. Custom fields must be properly formatted according to their field types.
-    
-    You can use the get_issue_type_fields tool first to see what fields are available and their formats
-    for a specific project and issue type.
+    """
+    Create a Jira issue with the given parameters and return the issue key.
 
     Args:
         project: The project key (e.g., 'PROJ')
-        title: Summary/title of the issue
-        issue_type: Type of the issue (e.g., 'Task', 'Bug', 'Story')
-        description: Issue description with Jira wiki markup support
         parent: Parent issue key (e.g., 'PROJ-123') for sub-tasks or issues in hierarchy
         assignee_email: Email address of the user to assign the issue to
-        custom_fields: Dictionary of custom fields where the key is the field ID and value follows the field type format:
-            Field Type Formats:
-            - Single Select: {'value': 'option_value'} or just 'option_value'
-            - Multi Select: [{'value': 'option1'}, {'value': 'option2'}] or ['option1', 'option2']
-            - User Picker: {'accountId': 'user_account_id'}
-            - Date: 'YYYY-MM-DD' (e.g., '2025-09-06')
-            - DateTime: 'YYYY-MM-DDThh:mm:ss.sss+0000'
-            - Number: Simple numeric value
-            - Text: Simple string value
-            - Labels: List of strings
-            - Sprint: Sprint ID number
-            - Epic Link: Epic issue key
-
-            Example:
-            {
-                'customfield_10001': {'value': 'High'},  # Single select
-                'customfield_10002': ['Tag1', 'Tag2'],  # Multi select
-                'customfield_10003': '2025-09-06',  # Date
-                'customfield_10004': 42,  # Number
-                'customfield_10005': {'accountId': 'user123'}  # User picker
-            }
+        title: Summary/title of the issue
+        issue_type: Type of the issue (e.g., 'Tarefa', 'Subtarefa')
+        description: Issue description with Jira wiki markup support
+        estrutura: Estrutura value (field: customfield_10310) you can use get_issue_type_fields to see available options
+        tipo_demanda: Tipo de Demanda value (field: customfield_10311) you can use get_issue_type_fields to see available options
+        account: Account ID (int) (field: customfield_10058) you can use get_issue_type_fields to see available options
+        processo: Processo value (field: customfield_10312) you can use get_issue_type_fields to see available options
+        cip_team: CIP Team value (field: customfield_10136) you can use get_issue_type_fields to see available options
+        start_date: Start date in YYYY-MM-DD format (field: customfield_10015) you can use get_issue_type_fields to see available options
+        origem_demanda: Origem da Demanda value (field: customfield_10339) you can use get_issue_type_fields to see available options
+        alinhamento: Alinhamento value (field: customfield_10307) you can use get_issue_type_fields to see available options
+        quarter: Quarter value (field: customfield_10308) you can use get_issue_type_fields to see available options
+        sprint_prevista: Sprint Prevista value (field: customfield_10309) you can use get_issue_type_fields to see available options
 
     Returns:
         The key of the created issue (e.g., 'PROJ-123')
-
-    Example Usage:
-        issue_key = create_jira_issue(
-            project='PROJ',
-            title='Implement new feature',
-            issue_type='Task',
-            description='h2. Overview\n\nImplement the new feature',
-            assignee_email='developer@company.com',
-            custom_fields={
-                'customfield_10001': {'value': 'High'},
-                'customfield_10002': ['Frontend', 'UX']
-            }
-        )
     """
-    return create_jira_issue_impl(
+    return criar_tarefa_jira(
         project=project,
         parent=parent,
         assignee_email=assignee_email,
         title=title,
         issue_type=issue_type,
         description=description,
-        custom_fields=custom_fields or {}
+        estrutura=estrutura,
+        tipo_demanda=tipo_demanda,
+        account=account,
+        processo=processo,
+        cip_team=cip_team,
+        start_date=start_date,
+        origem_demanda=origem_demanda,
+        alinhamento=alinhamento,
+        quarter=quarter,
+        sprint_prevista=sprint_prevista
     ).key
 
 @mcp.tool()
@@ -216,7 +231,7 @@ def get_issue_types() -> Any:
     return get_issue_types_impl()
 
 @mcp.tool()
-def get_issue_type_fields(project_key: str, issue_type_name: str) -> str:
+def get_issue_type_fields(project_key: str, issue_type_name: str, field: str = None) -> str:
     """Get a detailed description of all fields available for a specific kind of issue type in a project.
     
     This tool provides a structured list of all fields that can be used
@@ -224,45 +239,31 @@ def get_issue_type_fields(project_key: str, issue_type_name: str) -> str:
     (Required, Custom, and Standard) and include information about field types and allowed values.
     
     Args:
-        project_key: The project key (e.g., 'PROJ')
-        issue_type_name: The name of the issue type (e.g., 'Task', 'Bug')
+        project_key: The project key (e.g., 'ARQPERF')
+        issue_type_name: The name of the issue type (e.g., 'Tarefa')
+        field: Optional specific field name to filter the results (e.g., 'summary', 'issuetype')
     
     Returns:
-        A formatted string containing all field information organized by categories.
-        Example:
-        
-        Fields for Task in PROJ
-        =======================
-        
-        Required Fields:
-        --------------
-        Summary (summary)
-        Type: string
-        * Required field
-        
-        Project (project)
-        Type: project
-        * Required field
-        
-        Custom Fields:
-        ------------
-        Department (customfield_10052)
-        Type: option
-        Allowed values: Engineering, Marketing, Sales
-        
-        Sprint (customfield_10011)
-        Type: array
-        
-        Standard Fields:
-        --------------
-        Description (description)
-        Type: string
-        
-        Priority (priority)
-        Type: option
-        Allowed values: Highest, High, Medium, Low, Lowest
+        A JSON string containing a list of fields with their details:
+        [
+            {
+                "field": "summary",
+                "name": "Resumo",
+                "schema": "string",
+                "allowedValues": []
+            },
+            {
+                "field": "issuetype",
+                "name": "Tipo de item",
+                "schema": "issuetype",
+                "allowedValues": [
+                {
+                    "id": "10045",
+                    "name": "Tarefa"
+                }
+        ]
     """
-    return get_issue_type_custom_fields_by_project_impl(project_key, issue_type_name)
+    return get_issue_type_custom_fields_by_project_impl(project_key, issue_type_name, field)
 
 @mcp.tool()
 def get_tempo_accounts() -> str:

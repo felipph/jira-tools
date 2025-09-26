@@ -31,53 +31,83 @@ def init_jira_client() -> None:
             os.environ["JIRA_API_TOKEN"])
         )
 
+@with_jira_client
+def get_last_comments_impl(issue_key: str, n: int = 5) -> Any:
+    """
+    Get the last N comments of a Jira issue/card.
+    Args:
+        issue_key: The key of the Jira issue/card (e.g., 'PROJ-123')
+        n: Number of last comments to retrieve (default: 5)
+    Returns:
+        List of comments (each as dict with author, created, body)
+    """
+    try:
+        issue = jira_client.issue(issue_key)
+        comments = issue.fields.comment.comments if hasattr(issue.fields, 'comment') else []
+        last_comments = comments[-n:] if n > 0 else comments
+        return [
+            {
+                'author': c.author.displayName,
+                'created': c.created,
+                'body': c.body
+            } for c in last_comments
+        ]
+    except Exception as e:
+        return f"❌ Failed to get comments: {str(e)}"
+
 
 @with_jira_client
-def create_jira_issue_impl(
+def add_comment_to_issue_impl(issue_key: str, comment_markdown: str) -> str:
+    """
+    Add a comment to a Jira issue/card. Accepts markdown and converts to Jira wiki markup.
+    Args:
+        issue_key: The key of the Jira issue/card (e.g., 'PROJ-123')
+        comment_markdown: The comment in markdown format
+    Returns:
+        Success message or error
+    """
+    # Optionally, convert markdown to Jira wiki markup if needed
+    # For now, just post as is (Jira supports some markdown, but wiki markup is preferred)
+    try:
+        jira_client.add_comment(issue_key, comment_markdown)
+        return f"✅ Comment added to {issue_key}"
+    except Exception as e:
+        return f"❌ Failed to add comment: {str(e)}"
+
+
+@with_jira_client
+def criar_tarefa_jira(
     project: str,   
     parent: str,
     assignee_email: str,
     title: str,
     issue_type: str,
     description: str,
-    custom_fields: Dict[str, Any]
-) -> str:
-    """Create a Jira issue in a specific project and parent, with custom fields and rich text description.
+    estrutura: str,
+    tipo_demanda: str,
+    account: int,
+    processo: str,
+    cip_team: str,
+    start_date: str,
+    origem_demanda: str,
+    alinhamento: str,
+    quarter: str,
+    sprint_prevista: str
     
-    Args:
-        project: The project key (e.g., 'PROJ')
-        parent: The parent issue key (e.g., 'PROJ-123'). Can be None for top-level issues
-        assignee_email: Email of the user to assign the issue to
-        title: The summary/title of the issue
-        issue_type: The name of the issue type (e.g., 'Task', 'Bug', 'Story')
-        description: Rich text description supporting Jira wiki markup
-        custom_fields: Dictionary of custom fields where:
-            - Keys must be the field IDs (e.g., 'customfield_10001')
-            - Values must match the expected format for each field type:
-                * Single Select: {'value': 'option_value'} or 'option_value'
-                * Multi Select: [{'value': 'option1'}, {'value': 'option2'}] or ['option1', 'option2']
-                * User Picker: {'accountId': 'user_account_id'}
-                * Date: '2023-09-06' (YYYY-MM-DD format)
-                * DateTime: '2023-09-06T10:00:00.000+0000'
-                * Number: Simple numeric value
-                * Text: Simple string value
-                * Labels: List of strings
-                * Sprint: Sprint ID (number)
-                * Epic Link: Issue key of the epic
-            Example:
-            {
-                'customfield_10001': {'value': 'High'},  # Single select
-                'customfield_10002': [{'value': 'Tag1'}, {'value': 'Tag2'}],  # Multi select
-                'customfield_10003': {'value': '2023-09-06'),  # Date
-                'customfield_10004': {'id': 42},  # Number
-                'customfield_10005': {'accountId': 'user123'}  # User picker
-            }
-            
-    Returns:
-        The created issue object
-        
-    Raises:
-        ValueError: If assignee email is not found or if custom field values are incorrectly formatted
+) -> str:
+    """
+    Create a Jira issue with the given parameters and return the issue key.
+
+    customfield_10310 (Estrutura): Must be one of the predefined values
+    customfield_10311 (Tipo de Demanda (ARQPERF)): Must be one of the predefined values
+    customfield_10058 (Account): Must be one of the predefined values. Must be the ID of the account, not the name
+    customfield_10312 (Processo): Must be one of the predefined values
+    customfield_10136 (CIP Team): Must be one of the predefined values
+    customfield_10015 (Start Date): Must be a valid date in YYYY-MM-DD format
+    customfield_10339 (Origem da Demanda): Always
+    customfield_10307 (Alinhamento) : Try to figure out based on context
+    customfield_10308 (Quarter): Is the quarter
+    customfield_10309 (Sprint Prevista) : Must
     """
 
     # Search for the user by email
@@ -95,14 +125,21 @@ def create_jira_issue_impl(
         'description': description,  # Jira supports rich text (wiki markup)
         'parent': {'key': parent} if parent else None,
         'assignee': {'accountId': assignee_account_id},
+        'customfield_10310':{'value': estrutura},
+        'customfield_10311':{'value': tipo_demanda},
+        'customfield_10058': account,
+        'customfield_10312':{'value': processo},
+        'customfield_10136':{'key': cip_team},
+        'customfield_10015':start_date,
+        'customfield_10339':{'value': origem_demanda},
+        'customfield_10307':{'value': alinhamento},
+        'customfield_10308':{'value': quarter},
+        'customfield_10309':{'value': sprint_prevista}, 
     }
-    # Add custom fields
-    if custom_fields:
-        fields.update(custom_fields)
-    # Remove None values
-    fields = {k: v for k, v in fields.items() if v is not None}
+
     return jira_client.create_issue(fields=fields)
     
+ 
 
 @with_jira_client
 def get_transitions_with_fields_impl(issue_key: str) -> Dict[str, Dict[str, Any]]:
@@ -354,12 +391,13 @@ def get_issue_types_impl() -> Dict[str, Dict[str, str]]:
     return required_fields
 
 @with_jira_client
-def get_issue_type_custom_fields_by_project_impl(project_key: str, issue_type_name: str) -> str:
+def get_issue_type_custom_fields_by_project_impl(project_key: str, issue_type_name: str, field: str = None) -> Dict[str, Any]:
     """Get a structured text description of all fields available for a specific issue type.
     
     Args:
         project_key: The project key (e.g., 'PROJ')
         issue_type_name: The name of the issue type (e.g., 'Task', 'Bug')
+        field: Optional specific field ID to filter (e.g., 'customfield_10001'). Usefull to get the allowed values of a specific field.
         
     Returns:
         A json string containing all field information organized by categories
@@ -389,11 +427,9 @@ def get_issue_type_custom_fields_by_project_impl(project_key: str, issue_type_na
                 valor_permitido['name'] = allowed_value.get('name')
             valores_permitidos.append(valor_permitido)
         item['allowedValues'] = valores_permitidos
-        campos.append(item)
-        #gravando num arquivo json para consulta futura
-    with open(f'campos_{campo}.json', 'w') as f:
-        json.dump(campos, f, indent=2)
-    return json.dumps(campos, indent=2)
+        if field is not None and field == campo:
+            campos.append(item)
+    return json.dumps(campos, indent=2, ensure_ascii=True)
 
 # Global Tempo client instance
 tempo_client = None
@@ -579,5 +615,7 @@ def get_instructions_to_create_subtarefa() -> str:
     return instructions
 
 if __name__ == "__main__":
-    campos = get_issue_type_custom_fields_by_project_impl("ARQPERF", "Tarefa")
-    print(campos)
+    campos = get_issue_type_custom_fields_by_project_impl("ARQPERF", "Tarefa", 'customfield_10311')
+    print(campos) 
+    #campos = get_issue_types_impl()
+    #print(campos)

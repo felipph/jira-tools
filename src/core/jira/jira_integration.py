@@ -367,28 +367,6 @@ def get_issue_types_impl() -> Dict[str, Dict[str, str]]:
         for issue_type in issue_types
     }
 
-    """Helper function to extract required fields from transition data.
-    
-    Args:
-        transition_data: The transition data from Jira API
-        
-    Returns:
-        Dictionary of required fields with their details
-    """
-    required_fields = {}
-    if 'fields' in transition_data:
-        for field_id, field_data in transition_data['fields'].items():
-            if field_data.get('required', False):
-                field_name = field_data.get('name', field_id)
-                field_schema = field_data.get('schema', {})
-                field_type = field_schema.get('type', 'string')
-                required_fields[field_id] = {
-                    'name': field_name,
-                    'type': field_type,
-                    'allowedValues': field_data.get('allowedValues', []),
-                    'description': field_data.get('description', ''),
-                }
-    return required_fields
 
 @with_jira_client
 def get_issue_type_custom_fields_by_project_impl(project_key: str, issue_type_name: str, field: str = None) -> Dict[str, Any]:

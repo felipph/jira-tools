@@ -16,3 +16,4 @@ campos_cards.yml
 .idea
 swap.md
 *.json
+*.duckdb

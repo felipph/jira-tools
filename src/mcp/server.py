@@ -369,6 +369,23 @@ def get_subtarefa_creation_guide() -> str:
     """
     return get_instructions_to_create_subtarefa()
 
+
+@mcp.tool()
+def get_child_issues_by_parent(parent_key: str) -> Dict[str, Any]:
+    """Get all issues that have the specified issue as their parent.
+    
+    Args:
+        parent_key: The key of the parent issue (e.g., 'PROJ-123')
+    
+    Returns:
+        A dictionary containing:
+        - parent_info: Basic information about the parent issue
+        - children: List of child issues with their details
+        - total_children: Count of child issues
+    """
+    return get_child_issues_by_parent_impl(parent_key)
+
+
 if __name__ == "__main__":
     # Initialize and run the server using STDIO transport
     mcp.run(transport="stdio")

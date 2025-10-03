@@ -235,7 +235,7 @@ def get_issue_details_impl(issue_key: str) -> Dict[str, Any]:
         - All filled custom fields
     """
     # Get issue with subtasks
-    issue = jira_client.issue(issue_key, expand='subtasks')
+    issue = jira_client.issue(issue_key, expand='subtasks,issuelinks')
     
     # Handle description - return "Sem Descrição" if None or empty
     description = getattr(issue.fields, 'description', None)
@@ -613,6 +613,60 @@ def get_instructions_to_create_subtarefa() -> str:
     """
     instructions = """Not implemented yet. Tell the user that this feature is not available now."""
     return instructions
+
+
+@with_jira_client
+def get_child_issues_by_parent_impl(parent_key: str) -> Dict[str, Any]:
+    """Get all issues that have the specified issue as their parent.
+    
+    Args:
+        parent_key: The key of the parent issue (e.g., 'PROJ-123')
+    
+    Returns:
+        A dictionary containing:
+        - parent_info: Basic information about the parent issue
+        - children: List of child issues with their details
+        - total_children: Count of child issues
+    """
+    try:
+        # First verify if parent exists
+        parent = jira_client.issue(parent_key)
+        
+        # Search for all issues that have this parent
+        jql = f'parent = {parent_key} ORDER BY created DESC'
+        children = jira_client.search_issues(jql, maxResults=1000)
+        
+        child_issues = []
+        for child in children:
+            child_issues.append({
+                'key': child.key,
+                'title': child.fields.summary,
+                'status': child.fields.status.name,
+                'issue_type': child.fields.issuetype.name,
+                'assignee': getattr(child.fields.assignee, 'displayName', 'Unassigned'),
+                'priority': getattr(child.fields.priority, 'name', 'No Priority'),
+                'created': str(child.fields.created),
+                'updated': str(child.fields.updated)
+            })
+        
+        return {
+            'parent_info': {
+                'key': parent.key,
+                'title': parent.fields.summary,
+                'type': parent.fields.issuetype.name,
+                'status': parent.fields.status.name
+            },
+            'children': child_issues,
+            'total_children': len(child_issues)
+        }
+        
+    except Exception as e:
+        return {
+            'error': f"Failed to get child issues: {str(e)}",
+            'parent_key': parent_key,
+            'children': [],
+            'total_children': 0
+        }
 
 if __name__ == "__main__":
     campos = get_issue_type_custom_fields_by_project_impl("ARQPERF", "Tarefa", 'customfield_10311')
